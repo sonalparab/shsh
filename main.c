@@ -11,8 +11,12 @@ int main() {
     char *arg;
     char *args[256];
 
-    printf(">>> ");
-    while(fgets(buffer, sizeof(buffer), stdin)) {
+    char cwd[256];
+    getcwd(cwd, sizeof(cwd));
+
+    printf("%s $ ", cwd);
+    while (fgets(buffer, sizeof(buffer), stdin)) {
+
         cmd = buffer;
         buffer[strlen(buffer) - 1] = 0;
 
@@ -24,6 +28,20 @@ int main() {
 
         args[i] = 0;
 
+        // If exiting from shell
+        if (strcmp(args[0], "exit") == 0) {
+            break;
+        }
+
+        // If changing directory
+        if (strcmp(args[0], "cd") == 0) {
+            chdir(args[1]);
+            getcwd(cwd, sizeof(cwd));
+            printf("%s $ ", cwd);
+            continue;
+        }
+
+        // Run through child process otherwise
         int f = fork();
         if (f == 0) {
             execvp(args[0], args);
@@ -32,6 +50,6 @@ int main() {
         int status;
         wait(&status);
 
-        printf(">>> ");
+        printf("%s $ ", cwd);
     }
 }
