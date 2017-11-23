@@ -7,5 +7,8 @@ run: all
 clean:
 	rm shsh
 
-test:
-	gcc -o shsh -g
+debug:
+	gcc -o shsh -g main.c
+
+valgrind: debug
+	valgrind ./shsh --leak-check=yes

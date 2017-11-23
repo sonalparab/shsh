@@ -5,25 +5,42 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
+char * get_prompt() {
+    char *prompt = (char *)malloc(512);
+
+    // Lengths based off of google searches for the max lengths
+    // of username and hostname
+    char user[33];
+    getlogin_r(user, sizeof(user));
+
+    char hostname[65];
+    gethostname(hostname, sizeof(hostname));
+
+    char cwd[256];
+    char wd[256];
+    getcwd(wd, sizeof(wd));
+
+    char *homedir;
+    homedir = getenv("HOME");
+    if (strstr(wd, homedir) && strcspn(wd, homedir) == 0) {
+        strcpy(cwd, "~");
+        strcat(cwd, wd + strlen(homedir));
+    } else {
+        strcpy(cwd, wd);
+    }
+
+    sprintf(prompt, "%s@%s:%s $ ", user, hostname, cwd);
+    return prompt;
+}
+
 int main() {
     char buffer[256];
     char *cmd = buffer;
     char *arg;
     char *args[256];
 
-    char user[128];
-    getlogin_r(user, sizeof(user));
-
-    char hostname[128];
-    gethostname(hostname, sizeof(hostname));
-
-    char cwd[256];
-    getcwd(cwd, sizeof(cwd));
-
-    char prompt[512];
-    sprintf(prompt, "%s@%s:%s $ ", user, hostname, cwd);
-
-    printf("%s", prompt);
+    char * prompt;
+    printf("%s", prompt = get_prompt());
     while (fgets(buffer, sizeof(buffer), stdin)) {
 
         cmd = buffer;
@@ -44,10 +61,13 @@ int main() {
 
         // If changing directory
         if (strcmp(args[0], "cd") == 0) {
-            chdir(args[1]);
+            if (args[1]) {
+                chdir(args[1]);
+            } else {
+                chdir(getenv("HOME"));
+            }
 
-            sprintf(prompt, "%s@%s:%s $ ", user, hostname, cwd);
-            printf("%s", prompt);
+            printf("%s", prompt = get_prompt());
             continue;
         }
 
@@ -60,7 +80,7 @@ int main() {
         int status;
         wait(&status);
 
-        sprintf(prompt, "%s@%s:%s $ ", user, hostname, cwd);
-        printf("%s", prompt);
+        printf("%s", prompt = get_prompt());
     }
+    free(prompt);
 }
