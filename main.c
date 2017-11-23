@@ -11,10 +11,19 @@ int main() {
     char *arg;
     char *args[256];
 
+    char user[128];
+    getlogin_r(user, sizeof(user));
+
+    char hostname[128];
+    gethostname(hostname, sizeof(hostname));
+
     char cwd[256];
     getcwd(cwd, sizeof(cwd));
 
-    printf("%s $ ", cwd);
+    char prompt[512];
+    sprintf(prompt, "%s@%s:%s $ ", user, hostname, cwd);
+
+    printf("%s", prompt);
     while (fgets(buffer, sizeof(buffer), stdin)) {
 
         cmd = buffer;
@@ -36,8 +45,9 @@ int main() {
         // If changing directory
         if (strcmp(args[0], "cd") == 0) {
             chdir(args[1]);
-            getcwd(cwd, sizeof(cwd));
-            printf("%s $ ", cwd);
+
+            sprintf(prompt, "%s@%s:%s $ ", user, hostname, cwd);
+            printf("%s", prompt);
             continue;
         }
 
@@ -50,6 +60,7 @@ int main() {
         int status;
         wait(&status);
 
-        printf("%s $ ", cwd);
+        sprintf(prompt, "%s@%s:%s $ ", user, hostname, cwd);
+        printf("%s", prompt);
     }
 }
