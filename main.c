@@ -33,7 +33,7 @@ char * get_prompt() {
     return prompt;
 }
 
-void run(char *cmd, char buffer[]) {
+void runCommand(char *cmd, char buffer[]) {
   char *arg;
   char *args[256];
 
@@ -72,28 +72,30 @@ void run(char *cmd, char buffer[]) {
   wait(&status);
   return;
 }
-  
-int main(){
-  char buffer[256];
+
+void run(char buffer[]){
   char *cmd = buffer;
   char *restCmd = buffer;
-  char *arg;
-  char *args[256];
+  
+  cmd = buffer;
+  restCmd = buffer;
+  buffer[strlen(buffer) - 1] = 0;
+  cmd = strsep(&restCmd, ";");
 
+  while(cmd){
+    runCommand(cmd,buffer);
+    cmd = strsep(&restCmd, ";");
+  }
+}
+
+int main(){
+  char buffer[256];
   char * prompt;
   printf("%s", prompt = get_prompt());
+  
   while (fgets(buffer, sizeof(buffer), stdin)) {
 
-    //rn restCmd works as long as there are no spaces
-    cmd = buffer;
-    restCmd = buffer;
-    buffer[strlen(buffer) - 1] = 0;
-    cmd = strsep(&restCmd, ";");
-
-    while(cmd){
-      run(cmd,buffer);
-      cmd = strsep(&restCmd, ";");
-    }
+    run(buffer);
 
     printf("%s", prompt = get_prompt());
   }
