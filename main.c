@@ -66,7 +66,8 @@ int main() {
       // If exiting from shell
       if (strcmp(args[0], "exit") == 0) {
 	//break;
-	return 0;
+	//return 0;
+	exit(0);
       }
 
       // If changing directory
