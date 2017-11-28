@@ -6,7 +6,7 @@
 #include <sys/types.h>
 
 char * get_prompt() {
-    char *prompt = (char *)malloc(512);
+  char *prompt = (char *)calloc(512,sizeof(char));
 
     // Lengths based off of google searches for the max lengths
     // of username and hostname
@@ -33,7 +33,47 @@ char * get_prompt() {
     return prompt;
 }
 
-int main() {
+void run(char *cmd, char buffer[]) {
+  char *arg;
+  char *args[256];
+
+  int i;
+  for (i = 0; cmd; i++) {
+    arg = strsep(&cmd, " ");
+    args[i] = arg;
+  }
+
+  args[i] = 0;
+
+  // If exiting from shell
+  if (strcmp(args[0], "exit") == 0) {
+    exit(0);
+  }
+
+  // If changing directory
+  // currently breaks things sometimes
+  if (strcmp(args[0], "cd") == 0) {
+    if (args[1]) {
+      chdir(args[1]);
+    } else {
+      chdir(getenv("HOME"));
+    }
+
+    //printf("%s", prompt = get_prompt());
+    //continue;
+  }
+
+  // Run through child process otherwise
+  int f = fork();
+  if (f == 0) {
+    execvp(args[0], args);
+  }
+  int status;
+  wait(&status);
+  return;
+}
+  
+int main(){
   char buffer[256];
   char *cmd = buffer;
   char *restCmd = buffer;
@@ -42,58 +82,19 @@ int main() {
 
   char * prompt;
   printf("%s", prompt = get_prompt());
-  
   while (fgets(buffer, sizeof(buffer), stdin)) {
 
+    //rn restCmd works as long as there are no spaces
     cmd = buffer;
     restCmd = buffer;
     buffer[strlen(buffer) - 1] = 0;
-    //cmd is the first command, restCmd holds the rest
-    // of the commands if there are any
     cmd = strsep(&restCmd, ";");
-    //cmd[strlen(cmd) - 1] = 0;
-    
+
     while(cmd){
-
-      int i;
-      for (i = 0; cmd; i++) {
-	arg = strsep(&cmd, " ");
-	args[i] = arg;
-      }
-
-      args[i] = 0;
-
-      // If exiting from shell
-      if (strcmp(args[0], "exit") == 0) {
-	//break;
-	//return 0;
-	exit(0);
-      }
-
-      // If changing directory
-      if (strcmp(args[0], "cd") == 0) {
-	if (args[1]) {
-	  chdir(args[1]);
-	} else {
-	  chdir(getenv("HOME"));
-	}
-
-	//printf("%s", prompt = get_prompt());
-	continue;
-      }
-
-      // Run through child process otherwise
-      int f = fork();
-      if (f == 0) {
-	execvp(args[0], args);
-      }
-
-      int status;
-      wait(&status);
-      
-      cmd = strsep(&restCmd, ";");  
+      run(cmd,buffer);
+      cmd = strsep(&restCmd, ";");
     }
-  
+
     printf("%s", prompt = get_prompt());
   }
   free(prompt);
