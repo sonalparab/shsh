@@ -1,7 +1,7 @@
 echo BASIC TEST
 ls
 echo SEMICOLON TEST
-ls; ps
+ls;ps
 echo CD TEST
 cd ..
 echo EXIT
