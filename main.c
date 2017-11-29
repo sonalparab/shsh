@@ -47,5 +47,5 @@ void print_prompt() {
         strcpy(cwd, wd);
     }
 
-    printf("%s@%s:%s $ ", user, hostname, cwd);
+    printf(GREEN "%s@%s" RESET ":" YELLOW "%s " RESET "$ ", user, hostname, cwd);
 }
