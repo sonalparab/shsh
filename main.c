@@ -6,7 +6,7 @@
 #include <sys/types.h>
 
 char * get_prompt() {
-  char *prompt = (char *)calloc(512,sizeof(char));
+    char *prompt = (char *)calloc(512,sizeof(char));
 
     // Lengths based off of google searches for the max lengths
     // of username and hostname
@@ -34,70 +34,70 @@ char * get_prompt() {
 }
 
 void runCommand(char *cmd, char buffer[]) {
-  char *arg;
-  char *args[256];
+    char *arg;
+    char *args[256];
 
-  int i;
-  for (i = 0; cmd; i++) {
-    arg = strsep(&cmd, " ");
-    args[i] = arg;
-  }
-
-  args[i] = 0;
-
-  // If exiting from shell
-  if (strcmp(args[0], "exit") == 0) {
-    exit(0);
-  }
-
-  // If changing directory
-  // currently breaks things sometimes
-  if (strcmp(args[0], "cd") == 0) {
-    if (args[1]) {
-      chdir(args[1]);
-    } else {
-      chdir(getenv("HOME"));
+    int i;
+    for (i = 0; cmd; i++) {
+        arg = strsep(&cmd, " ");
+        args[i] = arg;
     }
 
-    //printf("%s", prompt = get_prompt());
-    //continue;
-  }
+    args[i] = 0;
 
-  // Run through child process otherwise
-  int f = fork();
-  if (f == 0) {
-    execvp(args[0], args);
-  }
-  int status;
-  wait(&status);
-  return;
+    // If exiting from shell
+    if (strcmp(args[0], "exit") == 0) {
+        exit(0);
+    }
+
+    // If changing directory
+    // currently breaks things sometimes
+    if (strcmp(args[0], "cd") == 0) {
+        if (args[1]) {
+            chdir(args[1]);
+        } else {
+            chdir(getenv("HOME"));
+        }
+
+        //printf("%s", prompt = get_prompt());
+        //continue;
+    }
+
+    // Run through child process otherwise
+    int f = fork();
+    if (f == 0) {
+        execvp(args[0], args);
+    }
+    int status;
+    wait(&status);
+    return;
 }
 
 void run(char buffer[]){
-  char *cmd = buffer;
-  char *restCmd = buffer;
-  
-  cmd = buffer;
-  restCmd = buffer;
-  buffer[strlen(buffer) - 1] = 0;
-  cmd = strsep(&restCmd, ";");
+    char *cmd = buffer;
+    char *restCmd = buffer;
 
-  while(cmd){
-    runCommand(cmd,buffer);
+    cmd = buffer;
+    restCmd = buffer;
+    buffer[strlen(buffer) - 1] = 0;
     cmd = strsep(&restCmd, ";");
-  }
+
+    while(cmd){
+        runCommand(cmd,buffer);
+        cmd = strsep(&restCmd, ";");
+    }
 }
 
 int main(){
-  char buffer[256];
-  char * prompt;
-  printf("%s", prompt = get_prompt());
-  
-  while (fgets(buffer, sizeof(buffer), stdin)) {
-
-    run(buffer);
-
+    char buffer[256];
+    char * prompt;
     printf("%s", prompt = get_prompt());
-  }
-  free(prompt);
+
+    while (fgets(buffer, sizeof(buffer), stdin)) {
+
+        run(buffer);
+
+        printf("%s", prompt = get_prompt());
+    }
+    free(prompt);
 }
