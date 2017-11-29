@@ -98,6 +98,7 @@ void run_command(char *cmd, char buffer[]) {
         redirect_stdin(args);
         execvp(args[0], args);
         printf("Invalid command\n");
+        exit(1);
     }
     int status;
     wait(&status);
