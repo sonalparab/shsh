@@ -4,9 +4,20 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <fcntl.h>
 
 #ifndef EXEC_H
 #define EXEC_H
+
+/*
+ * Handling redirecting output
+ */
+void redirect_stdout(char **args);
+
+/*
+ * Handling redirecting input
+ */
+void redirect_stdin(char **args);
 
 /*
  * Runs a singular command

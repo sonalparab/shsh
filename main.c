@@ -3,20 +3,18 @@
 
 int main(){
     char buffer[256];
-    char * prompt;
-    printf("%s", prompt = get_prompt());
+    print_prompt();
 
     while (fgets(buffer, sizeof(buffer), stdin)) {
 
         run(buffer);
+        print_prompt();
 
-        printf("%s", prompt = get_prompt());
     }
-    free(prompt);
+    print_prompt();
 }
 
-char * get_prompt() {
-    char *prompt = (char *)calloc(512,sizeof(char));
+void print_prompt() {
 
     // Lengths based off of google searches for the max lengths
     // of username and hostname
@@ -39,6 +37,5 @@ char * get_prompt() {
         strcpy(cwd, wd);
     }
 
-    sprintf(prompt, "%s@%s:%s $ ", user, hostname, cwd);
-    return prompt;
+    printf("%s@%s:%s $ ", user, hostname, cwd);
 }

@@ -1,8 +1,20 @@
+echo -----
 echo BASIC TEST
+echo -----
 ls
+echo -----
 echo SEMICOLON TEST
+echo -----
 ls;ps
+echo -----
 echo CD TEST
+echo -----
 cd ..
+echo -----
+echo REDIRECTION TEST
+echo -----
+ls > test.txt
+ps >> test.txt
+bash < ls
 echo EXIT
 exit

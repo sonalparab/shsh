@@ -54,3 +54,4 @@ dkms.conf
 *.swp
 *~
 shsh
+output.txt

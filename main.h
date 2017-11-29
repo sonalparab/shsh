@@ -6,6 +6,6 @@
 #include <sys/types.h>
 
 /*
- * Returns a prompt that resembles the default bash shell prompt
+ * Prints a prompt that resembles the default bash shell prompt
  */
-char * get_prompt();
+void print_prompt();
