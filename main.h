@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <pwd.h>
 
 /*
  * Prints a prompt that resembles the default bash shell prompt

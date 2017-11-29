@@ -18,7 +18,18 @@ void print_prompt() {
     // Lengths based off of google searches for the max lengths
     // of username and hostname
     char user[33];
-    getlogin_r(user, sizeof(user));
+    // Doesn't work outside of tmux and idk why
+    /* getlogin_r(user, sizeof(user)); */
+
+    uid_t u = getuid();
+    if (u) {
+        struct passwd *p = getpwuid(u);  // Check for NULL!
+        if (p) {
+            strcpy(user, p->pw_name);
+        } else {
+            strcpy(user, "user");
+        }
+    }
 
     char hostname[65];
     gethostname(hostname, sizeof(hostname));
