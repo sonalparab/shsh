@@ -10,11 +10,14 @@ echo -----
 echo CD TEST
 echo -----
 cd ..
+pwd
 echo -----
 echo REDIRECTION TEST
 echo -----
 ls > test.txt
 ps >> test.txt
+echo =CATTING FILE=
+cat test.txt
 bash < ls
 echo EXIT
 exit
