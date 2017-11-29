@@ -1,4 +1,6 @@
-# Project 1: Shell-ing Out Commands with Sonal Parab, Helen Ye
+# shsh: a shell by s h
+
+## Project 1: Shell-ing Out Commands with Sonal Parab, Helen Ye
 
 ## Features
 * Multiple commands in one line.
