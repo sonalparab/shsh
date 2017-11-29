@@ -11,7 +11,6 @@ int main(){
         print_prompt();
 
     }
-    print_prompt();
 }
 
 void print_prompt() {
