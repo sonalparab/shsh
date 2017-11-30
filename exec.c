@@ -62,47 +62,58 @@ void redirect_stdin(char *args[256]) {
 }
 
 void run_command(char *cmd, char buffer[]) {
-    char *arg;
-    char *args[256];
+  char *arg;
+  char *args[256];
 
-    int i;
-    for (i = 0; cmd; i++) {
-        arg = strsep(&cmd, " ");
-        args[i] = arg;
+  int i;
+  for (i = 0; cmd; i++) {
+    arg = strsep(&cmd, " ");
+    //to handle whitespace in front
+    // check if arg is an empty string
+    // and that cmd is not null
+    // until reaching an actual argument if there is one
+    while(strcmp(arg,"") == 0 && cmd){
+      arg = strsep(&cmd, " ");
+    }
+    //to handle whitespace at the end of a command
+    // if the arg at the end of a command is an empty string, break
+    if(strcmp(arg,"") == 0)
+      break;
+    args[i] = arg;
+  }
+
+  args[i] = 0;
+
+  // If exiting from shell
+  if (strcmp(args[0], "exit") == 0) {
+    exit(0);
+  }
+
+  // If changing directory
+  // currently breaks things sometimes
+  if (strcmp(args[0], "cd") == 0) {
+    if (args[1]) {
+      chdir(args[1]);
+    } else {
+      chdir(getenv("HOME"));
     }
 
-    args[i] = 0;
+    //printf("%s", prompt = get_prompt());
+    //continue;
+  }
 
-    // If exiting from shell
-    if (strcmp(args[0], "exit") == 0) {
-        exit(0);
-    }
-
-    // If changing directory
-    // currently breaks things sometimes
-    if (strcmp(args[0], "cd") == 0) {
-        if (args[1]) {
-            chdir(args[1]);
-        } else {
-            chdir(getenv("HOME"));
-        }
-
-        //printf("%s", prompt = get_prompt());
-        //continue;
-    }
-
-    // Run through child process otherwise
-    int f = fork();
-    if (f == 0) {
-        redirect_stdout(args);
-        redirect_stdin(args);
-        execvp(args[0], args);
-        printf("Invalid command\n");
-        exit(1);
-    }
-    int status;
-    wait(&status);
-    return;
+  // Run through child process otherwise
+  int f = fork();
+  if (f == 0) {
+    redirect_stdout(args);
+    redirect_stdin(args);
+    execvp(args[0], args);
+    printf("Invalid command\n");
+    exit(1);
+  }
+  int status;
+  wait(&status);
+  return;
 }
 
 void run(char buffer[]){
