@@ -12,6 +12,4 @@ valgrind: debug
 	valgrind ./shsh --leak-check=yes
 
 clean:
-	rm shsh
-	rm output.txt
-	rm bashoutput.txt
+	rm shsh output.txt test.txt
