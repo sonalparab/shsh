@@ -14,3 +14,4 @@ valgrind: debug
 clean:
 	rm shsh
 	rm output.txt
+	rm bashoutput.txt

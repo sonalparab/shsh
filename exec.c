@@ -5,11 +5,11 @@ void redirect_stdout(char *args[256]) {
     for (i = 0; args[i]; i++) {
 
         /*
-        char* red = strchr(args[i], '>');
-        if (!red) {
-            continue;
-        }
-        */
+           char* red = strchr(args[i], '>');
+           if (!red) {
+           continue;
+           }
+           */
 
         int fd;
         char* filename = args[i+1];
@@ -52,7 +52,12 @@ void redirect_stdin(char *args[256]) {
     int i;
     for (i = 0; args[i]; i++) {
         if (args[i][0] == '<') {
-            char * filename = args[i+1];
+            char *filename;
+            if (args[i+1]) {
+                filename = args[i+1];
+            } else {
+                filename = args[i] + 1;
+            }
             int fd = open(filename, O_RDONLY);
             dup2(fd, 0);
             close(fd);
@@ -62,58 +67,58 @@ void redirect_stdin(char *args[256]) {
 }
 
 void run_command(char *cmd, char buffer[]) {
-  char *arg;
-  char *args[256];
+    char *arg;
+    char *args[256];
 
-  int i;
-  for (i = 0; cmd; i++) {
-    arg = strsep(&cmd, " ");
-    //to handle whitespace in front
-    // check if arg is an empty string
-    // and that cmd is not null
-    // until reaching an actual argument if there is one
-    while(strcmp(arg,"") == 0 && cmd){
-      arg = strsep(&cmd, " ");
-    }
-    //to handle whitespace at the end of a command
-    // if the arg at the end of a command is an empty string, break
-    if(strcmp(arg,"") == 0)
-      break;
-    args[i] = arg;
-  }
-
-  args[i] = 0;
-
-  // If exiting from shell
-  if (strcmp(args[0], "exit") == 0) {
-    exit(0);
-  }
-
-  // If changing directory
-  // currently breaks things sometimes
-  if (strcmp(args[0], "cd") == 0) {
-    if (args[1]) {
-      chdir(args[1]);
-    } else {
-      chdir(getenv("HOME"));
+    int i;
+    for (i = 0; cmd; i++) {
+        arg = strsep(&cmd, " ");
+        //to handle whitespace in front
+        // check if arg is an empty string
+        // and that cmd is not null
+        // until reaching an actual argument if there is one
+        while(strcmp(arg,"") == 0 && cmd){
+            arg = strsep(&cmd, " ");
+        }
+        //to handle whitespace at the end of a command
+        // if the arg at the end of a command is an empty string, break
+        if(strcmp(arg,"") == 0)
+            break;
+        args[i] = arg;
     }
 
-    //printf("%s", prompt = get_prompt());
-    //continue;
-  }
+    args[i] = 0;
 
-  // Run through child process otherwise
-  int f = fork();
-  if (f == 0) {
-    redirect_stdout(args);
-    redirect_stdin(args);
-    execvp(args[0], args);
-    printf("Invalid command\n");
-    exit(1);
-  }
-  int status;
-  wait(&status);
-  return;
+    // If exiting from shell
+    if (strcmp(args[0], "exit") == 0) {
+        exit(0);
+    }
+
+    // If changing directory
+    // currently breaks things sometimes
+    if (strcmp(args[0], "cd") == 0) {
+        if (args[1]) {
+            chdir(args[1]);
+        } else {
+            chdir(getenv("HOME"));
+        }
+
+        //printf("%s", prompt = get_prompt());
+        //continue;
+    }
+
+    // Run through child process otherwise
+    int f = fork();
+    if (f == 0) {
+        redirect_stdout(args);
+        redirect_stdin(args);
+        execvp(args[0], args);
+        printf("Invalid command\n");
+        exit(1);
+    }
+    int status;
+    wait(&status);
+    return;
 }
 
 void run(char buffer[]){
