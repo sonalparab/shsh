@@ -5,8 +5,10 @@ int main(){
     char buffer[256];
     print_prompt();
 
-    while (fgets(buffer, sizeof(buffer), stdin)) {
-
+    while (1) {
+        if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
+            break;
+        }
         run(buffer);
         print_prompt();
 

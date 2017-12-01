@@ -67,6 +67,9 @@ void redirect_stdin(char *args[256]) {
 }
 
 void run_command(char *cmd, char buffer[]) {
+    if (strlen(cmd) == 0) {
+        return;
+    }
     char *arg;
     char *args[256];
 
@@ -122,8 +125,8 @@ void run_command(char *cmd, char buffer[]) {
 }
 
 void run(char buffer[]){
-    char *cmd = buffer;
-    char *restCmd = buffer;
+    char *cmd;
+    char *restCmd;
 
     cmd = buffer;
     restCmd = buffer;
