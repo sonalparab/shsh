@@ -13,6 +13,7 @@ ls > test.txt
 ps >> test.txt
 echo =CATTING FILE=
 cat test.txt
+rm test.txt
 echo -----
 echo CD TEST
 echo -----

@@ -102,7 +102,7 @@ void run_command(char *cmd, char buffer[]) {
         } else {
             chdir(getenv("HOME"));
         }
-
+        return;
         //printf("%s", prompt = get_prompt());
         //continue;
     }
