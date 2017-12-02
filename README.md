@@ -3,16 +3,16 @@
 ## Project 1: Shell-ing Out Commands with Sonal Parab, Helen Ye
 
 ## Features
-* Multiple commands in one line.
-* Redirection.
-* Piping (Single pipe only?)
+* Multiple commands in one line
+* Redirection
+* Piping (Single pipe only)
 
 ## Attempted
 * Feature
 
 ## Bugs:
-* If you try to cd into a directory that doesn't exist, it does not inform you that the directory doesn't exist
 * Does not work with commands that have tabs
+* When redirecting, there needs to be a space before and after the redirection symbol
 
 ## Files & Function Headers
 
