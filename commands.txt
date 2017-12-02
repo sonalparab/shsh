@@ -13,7 +13,7 @@ echo REDIRECTION TEST
 echo -----
 echo ls > test.txt
 ls > test.txt
-echo ps >> text.txt
+echo ps >> test.txt
 ps >> test.txt
 echo -CATTING FILE-
 echo cat test.txt
