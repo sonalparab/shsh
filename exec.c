@@ -93,6 +93,7 @@ int piping(char *args[256]){
 void run_command(char *cmd, char buffer[]) {
   char *arg;
   char *args[256];
+  int ran = 1;
 
   int i;
   for (i = 0; cmd; i++) {
@@ -121,6 +122,7 @@ void run_command(char *cmd, char buffer[]) {
   // If changing directory
   // currently breaks things sometimes
   if (strcmp(args[0], "cd") == 0) {
+    ran = 0;
     if (args[1]) {
       chdir(args[1]);
     } else {
@@ -128,12 +130,15 @@ void run_command(char *cmd, char buffer[]) {
     }
   }
 
-  // If piping run with popen
+  // If ran is 1, check if for piping
+  // Returns 0 if the command was run
   // Returns 1 if command did not need piping
-  int ans = piping(args);
+  if(ran)
+    ran = piping(args);
 
-  //Run through child process otherwise
-  if(ans){     
+  //Run through child process if ran is 1
+  // meaning the command was not run yet
+  if(ran){     
     int f = fork();
     if (f == 0) {
       redirect_stdout(args);

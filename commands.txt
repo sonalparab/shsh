@@ -1,23 +1,36 @@
 echo -----
 echo BASIC TEST
 echo -----
+echo ls
 ls
 echo -----
 echo SEMICOLON TEST
 echo -----
-ls;ps
+echo ls (semicolon) ps
+ls ; ps
 echo -----
 echo REDIRECTION TEST
 echo -----
+echo ls > test.txt
 ls > test.txt
+echo ps >> text.txt
 ps >> test.txt
-echo =CATTING FILE=
+echo -CATTING FILE-
+echo cat test.txt
 cat test.txt
+echo rm test.txt
 rm test.txt
+echo -----
+echo PIPING TEST
+echo -----
+echo ls (bar) wc
+ls | wc
 echo -----
 echo CD TEST
 echo -----
+echo cd ..
 cd ..
+echo pwd
 pwd
 echo EXIT
 exit
