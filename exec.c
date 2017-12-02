@@ -122,6 +122,7 @@ void run_command(char *cmd, char buffer[]) {
   // If changing directory
   // currently breaks things sometimes
   if (strcmp(args[0], "cd") == 0) {
+    // Set ran to 0 because command was run
     ran = 0;
     if (args[1]) {
       chdir(args[1]);
@@ -130,7 +131,7 @@ void run_command(char *cmd, char buffer[]) {
     }
   }
 
-  // If ran is 1, check if for piping
+  // If ran is 1, check for piping
   // Returns 0 if the command was run
   // Returns 1 if command did not need piping
   if(ran)
