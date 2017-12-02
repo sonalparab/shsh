@@ -3,7 +3,7 @@
 ## Project 1: Shell-ing Out Commands with Sonal Parab, Helen Ye
 
 ## Features
-* Multiple commands in one line
+* Multiple commands in one line separated by `;`
 * Redirection
 * Piping (Single pipe only)
 
