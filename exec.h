@@ -29,4 +29,9 @@ void run_command(char *, char *);
  */
 void run(char *);
 
+/*
+ * Simple pipes
+ */
+int piping(char *args[256]);
+
 #endif
