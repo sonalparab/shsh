@@ -129,6 +129,7 @@ void run_command(char *cmd, char buffer[]) {
     } else {
       chdir(getenv("HOME"));
     }
+    return;
   }
 
   // If ran is 1, check for piping
