@@ -5,13 +5,14 @@
 ## Features
 * Multiple commands in one line.
 * Redirection.
+* Piping (Single pipe only?)
 
 ## Attempted
 * Feature
 
 ## Bugs:
-* After an invalid command is submitted, it takes +1 exit.
-    * That is, after submitting 3 invalid commands, you have to run exit 4 times.
+* If you try to cd into a directory that doesn't exist, it does not inform you that the directory doesn't exist
+* Does not work with commands that have tabs
 
 ## Files & Function Headers
 
@@ -33,9 +34,14 @@ void redirect_stdin(char **args);
 void run_command(char *, char *);
 
 /*
- * The execution of the shell.
+ * The execution of the shell
  */
 void run(char *);
+
+/*
+ * Handles commands with pipes
+ */
+int piping(char *args[256]);
 ```
 
 ### `main.h`

@@ -25,12 +25,12 @@ void redirect_stdin(char **args);
 void run_command(char *, char *);
 
 /*
- * The execution of the shell.
+ * The execution of the shell
  */
 void run(char *);
 
 /*
- * Simple pipes
+ * Handles commands with pipes
  */
 int piping(char *args[256]);
 
