@@ -5,6 +5,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <errno.h>
 
 #ifndef EXEC_H
 #define EXEC_H
