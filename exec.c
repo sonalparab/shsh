@@ -95,6 +95,10 @@ void run_command(char *cmd, char buffer[]) {
     char *args[256];
     int ran = 1;
 
+    if (strlen(cmd) == 0) {
+        return;
+    }
+
     int i;
     for (i = 0; cmd; i++) {
         arg = strsep(&cmd, " ");
