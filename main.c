@@ -27,14 +27,16 @@ int main(){
     char buffer[256];
 
     while (1) {
-        // Use if you want to do smt specific catching ctrl-c
+        // Use if you want to do something specific catching ctrl-c
         if (sigsetjmp(env, 1) == SIGJMPENV){
         }
 
         print_prompt();
+
         if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
             break;
         }
+
         run(buffer);
     }
 }
@@ -44,12 +46,10 @@ void print_prompt() {
     // Lengths based off of google searches for the max lengths
     // of username and hostname
     char user[33];
-    // Doesn't work outside of tmux and idk why
-    /* getlogin_r(user, sizeof(user)); */
 
     uid_t u = getuid();
     if (u) {
-        struct passwd *p = getpwuid(u);  // Check for NULL!
+        struct passwd *p = getpwuid(u);
         if (p) {
             strcpy(user, p->pw_name);
         } else {

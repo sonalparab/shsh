@@ -6,16 +6,9 @@ int get_pid() {
     return pid;
 }
 
-void redirect_stdout(char *args[256]) {
+void redirect_out(char *args[256]) {
     int i;
     for (i = 0; args[i]; i++) {
-
-        /*
-           char* red = strchr(args[i], '>');
-           if (!red) {
-           continue;
-           }
-           */
 
         int fd;
         char* filename = args[i+1];
@@ -54,7 +47,7 @@ void redirect_stdout(char *args[256]) {
     }
 }
 
-void redirect_stdin(char *args[256]) {
+void redirect_in(char *args[256]) {
     int i;
     for (i = 0; args[i]; i++) {
         if (args[i][0] == '<') {
@@ -72,19 +65,19 @@ void redirect_stdin(char *args[256]) {
     }
 }
 
-int piping(char *args[256]){
+int piping(char *args[256]) {
     int i;
     // Default is that command is not run, r = -1
     int r = -1;
     char *cmd = (char*)calloc(256, sizeof(char));
-    
+
     for (i = 0; args[i]; i++){
         int j;
-        for(j = 0;args[i][j];j++){
-	    // Check for piping in command
-	    // If true, the command will be run with
-	    // popen, set r to 0
-            if (args[i][j] == '|'){
+        for (j = 0; args[i][j]; j++) {
+            // Check for piping in command
+            // If true, the command will be run with
+            // popen, set r to 0
+            if (args[i][j] == '|') {
                 r = 0;
             }
         }
@@ -92,20 +85,20 @@ int piping(char *args[256]){
     }
 
     // Run command with popen if needed
-    if(!r){
+    if (!r) {
         FILE *p;
-        p = popen(cmd,"w");
+        p = popen(cmd, "w");
         char buffer[256];
-        fgets(buffer,sizeof(buffer),p);
+        fgets(buffer, sizeof(buffer), p);
         buffer[sizeof(buffer) - 1] = 0;
         pclose(p);
     }
-    
+
     // Return whether the command was run or not
     return r;
 }
 
-void run_command(char *cmd, char buffer[]) {
+void run_command(char *cmd) {
     char *arg;
     char *args[256];
     int ran;
@@ -130,17 +123,17 @@ void run_command(char *cmd, char buffer[]) {
         // If the arg at the end of a command is an empty string, break
         if(strcmp(arg,"") == 0 || strcmp(arg," ") == 0)
             break;
-	args[i] = arg;
+        args[i] = arg;
     }
 
     // If command was only whitespace, i is 0
     if(i == 0)
-      return;
-    
+        return;
+
     args[i] = 0;
 
     // Running the command
-    
+
     // If exiting from shell
     if (strcmp(args[0], "exit") == 0) {
         exit(0);
@@ -170,8 +163,8 @@ void run_command(char *cmd, char buffer[]) {
     if (ran){
         pid = fork();
         if (pid == 0) {
-            redirect_stdout(args);
-            redirect_stdin(args);
+            redirect_out(args);
+            redirect_in(args);
             execvp(args[0], args);
 
 
@@ -184,7 +177,7 @@ void run_command(char *cmd, char buffer[]) {
     return;
 }
 
-void run(char buffer[]){
+void run(char buffer[]) {
     char *cmd = buffer;
     char *restCmd = buffer;
 
@@ -193,8 +186,8 @@ void run(char buffer[]){
     buffer[strlen(buffer) - 1] = 0;
     cmd = strsep(&restCmd, ";");
 
-    while(cmd){
-        run_command(cmd,buffer);
+    while (cmd){
+        run_command(cmd);
         cmd = strsep(&restCmd, ";");
     }
 }
