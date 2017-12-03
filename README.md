@@ -6,6 +6,7 @@
 * Multiple commands in one line separated by `;`
 * Redirection
 * Piping (Single pipe only)
+* Extra whitespace in between commands
 * `Ctrl-c` sends to children & doesn't affect main parent
 
 ## Attempted
