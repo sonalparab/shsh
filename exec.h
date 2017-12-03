@@ -11,6 +11,11 @@
 #define EXEC_H
 
 /*
+ * Returns the value of the pid var used in this shell
+ */
+int get_pid();
+
+/*
  * Handling redirecting output
  */
 void redirect_stdout(char **args);

@@ -1,17 +1,41 @@
 #include "exec.h"
 #include "main.h"
 
+sigjmp_buf env;
+
+static void sighandler(int signo) {
+    if (signo == SIGINT) {
+        if (get_pid() > 0) {
+            kill(get_pid(), SIGINT);
+        }
+        printf("\n");
+        siglongjmp(env, SIGJMPENV);
+        exit(0);
+    }
+
+    if (signo == SIGCHLD) {
+        int pid;
+        int status;
+        pid = waitpid(-1, &status, WNOHANG);
+    }
+}
+
 int main(){
+    signal(SIGINT, sighandler);
+    signal(SIGCHLD, sighandler);
+
     char buffer[256];
-    print_prompt();
 
     while (1) {
+        // Use if you want to do smt specific catching ctrl-c
+        if (sigsetjmp(env, 1) == SIGJMPENV){
+        }
+
+        print_prompt();
         if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
             break;
         }
         run(buffer);
-        print_prompt();
-
     }
 }
 

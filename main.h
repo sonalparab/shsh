@@ -5,6 +5,9 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <pwd.h>
+#include <setjmp.h>
+
+#define SIGJMPENV 8
 
 // These colors make things weird outside of tmux
 // So many weird things outside of tmux
@@ -21,6 +24,13 @@
 #define MAGENTA "\x1b[35m"
 #define CYAN    "\x1b[36m"
 #define RESET   "\x1b[0m"
+
+/*
+ * Signal handling for SIGINT
+ * Thanks to
+ * https://indradhanush.github.io/blog/writing-a-unix-shell-part-3/
+ */
+static void sighandler(int signo);
 
 /*
  * Prints a prompt that resembles the default bash shell prompt

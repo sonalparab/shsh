@@ -1,5 +1,11 @@
 #include "exec.h"
 
+int pid = -1;
+
+int get_pid() {
+    return pid;
+}
+
 void redirect_stdout(char *args[256]) {
     int i;
     for (i = 0; args[i]; i++) {
@@ -149,8 +155,8 @@ void run_command(char *cmd, char buffer[]) {
     //Run through child process if ran is 1
     // meaning the command was not run yet
     if (ran){
-        int f = fork();
-        if (f == 0) {
+        pid = fork();
+        if (pid == 0) {
             redirect_stdout(args);
             redirect_stdin(args);
             execvp(args[0], args);
