@@ -17,8 +17,8 @@
 * Does not work with commands that have tabs
 * When redirecting, there needs to be a space before and after the redirection symbol
 * While the homedir is substituted with `~` in the prompt, trying to use it as a path will fail
-* Can not echo anything with a semicolon or bar, even if its in quotes
-* There are hard limits on the lengths of the input, working directory in prompt (255 + `NULL`)
+* Can not echo anything with a semicolon or bar, even if it's in quotes
+* There are hard limits on the lengths of the input and working directory in prompt (255 + `NULL`)
 
 ## Files & Function Headers
 
