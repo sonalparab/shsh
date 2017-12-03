@@ -8,6 +8,7 @@
 * Piping (Single pipe only)
 * Extra whitespace in commands
 * `Ctrl-c` sends to children & doesn't affect main parent
+* Colorful prompt!
 
 ## Attempted
 * Feature
