@@ -11,7 +11,7 @@
 #define EXEC_H
 
 /*
- * Returns the value of the pid var used in this shell
+ * Returns the value of the pid used by this shell
  */
 int get_pid();
 
