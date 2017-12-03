@@ -111,7 +111,7 @@ void run_command(char *cmd, char buffer[]) {
     int ran;
 
     // If command is empty
-    if (strlen(cmd) == 0 || strcmp(cmd," ") == 0) {
+    if (strlen(cmd) == 0) {
         return;
     }
 
@@ -130,10 +130,13 @@ void run_command(char *cmd, char buffer[]) {
         // If the arg at the end of a command is an empty string, break
         if(strcmp(arg,"") == 0 || strcmp(arg," ") == 0)
             break;
-	else
-            args[i] = arg;
+	args[i] = arg;
     }
 
+    // If command was only whitespace, i is 0
+    if(i == 0)
+      return;
+    
     args[i] = 0;
 
     // Running the command

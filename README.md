@@ -6,7 +6,7 @@
 * Multiple commands in one line separated by `;`
 * Redirection
 * Piping (Single pipe only)
-* Extra whitespace at the beginning, end, or in between commands
+* Extra whitespace in commands
 * `Ctrl-c` sends to children & doesn't affect main parent
 
 ## Attempted
@@ -16,7 +16,6 @@
 * Does not work with commands that have tabs
 * When redirecting, there needs to be a space before and after the redirection symbol
 * While the homedir is substituted with `~` in the prompt, trying to use it as a path will fail
-* Command of only whitespace will not work (but works if only one space)
 * Can not echo anything with a semicolon or bar, even if its in quotes
 
 ## Files & Function Headers
