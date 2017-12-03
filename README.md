@@ -14,6 +14,7 @@
 ## Bugs:
 * Does not work with commands that have tabs
 * When redirecting, there needs to be a space before and after the redirection symbol
+* While the homedir is substituted with `~` in the prompt, trying to use it as a path will fail
 
 ## Files & Function Headers
 
