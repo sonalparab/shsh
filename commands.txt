@@ -23,7 +23,7 @@ rm test.txt
 echo -----
 echo PIPING TEST
 echo -----
-echo COMMAND: ls (pipe) wc
+echo COMMAND: ls (bar) wc
 ls | wc
 echo -----
 echo CD TEST
